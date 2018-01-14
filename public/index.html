@@ -10,15 +10,6 @@
     <h1>Hello</h1>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-       var socket = io()
-
-       socket.on('connect',()=>{
-            document.querySelector('h1').textContent = "Connection established"
-       })
-       socket.on('disconnect',()=>{
-            document.querySelector('h1').textContent = "Connection Lost"          
-       })
-    </script>
+    <script src="./js/index.js"></script>
 </body>
 </html>
