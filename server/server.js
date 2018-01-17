@@ -4,6 +4,7 @@ const express = require('express')
 const socketIO = require('socket.io')
 
 const {generateMsg} = require('./utils/message')
+const {generateLocationMsg} = require('./utils/message')
 const publicPath = path.join(__dirname,"../public")
 var app = express()
 var server = http.createServer(app)
@@ -17,6 +18,10 @@ io.on('connection',(socket)=>{
 
     socket.on('createMsg',(newMsg)=>{
         io.emit('newMsg',generateMsg(newMsg.from,newMsg.text))
+    })
+
+    socket.on('createLocationMsg',(coords)=>{
+        io.emit('newLocationMsg',generateLocationMsg('User',coords.latitude,coords.longitude))
     })
 })
 
