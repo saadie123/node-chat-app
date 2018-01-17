@@ -7,9 +7,15 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Hello</h1>
-
+    <h1></h1>
+    <ol id="messages"></ol>
+    
+    <form id="message-form">
+        <input type="text" name="message" placeholder="Type your message">
+        <button>Send</button>
+    </form>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="./js/libs/jquery.js"></script>
     <script src="./js/index.js"></script>
 </body>
 </html>
