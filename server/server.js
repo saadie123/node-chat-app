@@ -12,13 +12,25 @@ io.on('connection',(socket)=>{
     console.log('Connection established')
 
     socket.emit('newMsg',{
-        from: 'Bisma',
-        text: 'Saadie kia haal ha?',
-        createdAt:Date.now()
+        from: 'Admin',
+        text: 'Welcome to the chat app'
     })
-
+    socket.broadcast.emit('newMsg',{
+        from: 'Admin',
+        text: 'New user joined'
+    })
     socket.on('createMsg',(newMsg)=>{
-        console.log('createMsg',newMsg)
+        // console.log('createMsg',newMsg)
+        io.emit('newMsg',{
+            from:newMsg.from,
+            text: newMsg.text,
+            createdAt: new Date().getTime()
+        })
+        // socket.broadcast.emit('newMsg',{
+        //         from:newMsg.from,
+        //         text: newMsg.text,
+        //         createdAt: new Date().getTime()
+        //     })
     })
 })
 

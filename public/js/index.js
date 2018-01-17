@@ -8,6 +8,7 @@ socket.on('connect', function () {
         text: 'Mein theek aap sunao?',
         createdAt: Date.now()
     })
+
 })
 
 socket.on('newMsg',function(message){
