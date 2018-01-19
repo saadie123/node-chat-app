@@ -8,11 +8,13 @@ socket.on('disconnect', function () {
 })
 
 socket.on('newMsg',function(message){
+    var formattedTime = moment(message.createdAt).format("h:mm a")
     console.log('new msg',message)
-    $('#messages').append('<li>'+message.from+": "+message.text+"</li>")
+    $('#messages').append('<li>'+message.from+" "+formattedTime+": "+message.text+"</li>")
 })
 socket.on('newLocationMsg',function(message){
-$('#messages').append(`<li>${message.from}: <a href='${message.url}' target='_blank'>My current location</a></li>`)
+    var formattedTime = moment(message.createdAt).format("h:mm a")    
+$('#messages').append(`<li>${message.from}: ${formattedTime} <a href='${message.url}' target='_blank'>My current location</a></li>`)
 })
 
 $('#message-form').on('submit',function(e){
@@ -29,6 +31,7 @@ $('#send-location').on('click',function(){
        return alert("Your browser does not support Geolocation")
    }
    $('#send-location').attr('disabled','disabled').text('Sending Location...')
+
    navigator.geolocation.getCurrentPosition(function(position){
    $('#send-location').removeAttr('disabled').text('Send Location')       
     socket.emit('createLocationMsg',{
