@@ -17,12 +17,16 @@ function scrollToBottom(){
 }
 
 socket.on('connect', function () {
-    console.log("Welcome to the chat app")
+    var params = jQuery.deparam(window.location.search)
+    socket.emit("join",params)
 })
 socket.on('disconnect', function () {
     console.log("Disconnected from server")
 })
-
+socket.on("err",function(error){
+    alert(error.message)
+    window.location.href = '/'
+})
 socket.on('newMsg',function(message){
     var formattedTime = moment(message.createdAt).format("h:mm a")
     var template= $('#message-template').html()

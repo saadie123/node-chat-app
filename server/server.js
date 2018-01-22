@@ -3,6 +3,7 @@ const http = require('http')
 const express = require('express')
 const socketIO = require('socket.io')
 
+const {isRealString} = require('./utils/validation')
 const {generateMsg} = require('./utils/message')
 const {generateLocationMsg} = require('./utils/message')
 const publicPath = path.join(__dirname,"../public")
@@ -12,6 +13,11 @@ var io = socketIO(server)
 
 io.on('connection',(socket)=>{
     console.log('Connection established')
+    socket.on("join",(params)=>{
+        if(!isRealString(params.name) || !isRealString(params.room)){
+            socket.emit("err",{message:"Name and Room name are required"})
+        }
+    })
 
     socket.emit('newMsg',generateMsg('Admin','Welcome to the chat app'))
     socket.broadcast.emit('newMsg',generateMsg('Admin','New user joined'))
