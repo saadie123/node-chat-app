@@ -17,10 +17,12 @@ io.on('connection',(socket)=>{
         if(!isRealString(params.name) || !isRealString(params.room)){
             socket.emit("err",{message:"Name and Room name are required"})
         }
+
+        socket.join(params.room)
+        socket.emit('newMsg',generateMsg('Admin','Welcome to the chat app'))
+        socket.broadcast.to(params.room).emit('newMsg',generateMsg('Admin',`${params.name} has joined`))
     })
 
-    socket.emit('newMsg',generateMsg('Admin','Welcome to the chat app'))
-    socket.broadcast.emit('newMsg',generateMsg('Admin','New user joined'))
 
     socket.on('createMsg',(newMsg)=>{
         io.emit('newMsg',generateMsg(newMsg.from,newMsg.text))
