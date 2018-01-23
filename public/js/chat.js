@@ -27,6 +27,15 @@ socket.on("err",function(error){
     alert(error.message)
     window.location.href = '/'
 })
+
+socket.on("updateUserList", function(users){
+    var ol = $('<ol></ol>')
+    users.forEach(function(user){
+        ol.append("<li>"+user+"</li>")
+    })
+    $('#users').html(ol)
+})
+
 socket.on('newMsg',function(message){
     var formattedTime = moment(message.createdAt).format("h:mm a")
     var template= $('#message-template').html()
