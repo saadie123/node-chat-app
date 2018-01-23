@@ -34,11 +34,17 @@ io.on('connection',(socket)=>{
 
 
     socket.on('createMsg',(newMsg)=>{
-        io.emit('newMsg',generateMsg(newMsg.from,newMsg.text))
+        var user = users.getUser(socket.id)
+        if(user && isRealString(newMsg.text)){
+            io.to(user.room).emit('newMsg',generateMsg(user.name,newMsg.text))
+        }
     })
 
     socket.on('createLocationMsg',(coords)=>{
-        io.emit('newLocationMsg',generateLocationMsg('User',coords.latitude,coords.longitude))
+        var user = users.getUser(socket.id)
+        if(user){
+            io.to(user.room).emit('newLocationMsg',generateLocationMsg(user.name,coords.latitude,coords.longitude))
+        }
     })
 
     socket.on("disconnect",()=>{
